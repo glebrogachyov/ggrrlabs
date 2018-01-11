@@ -1,102 +1,145 @@
-#include <iostream> 
- #include <cstdlib> 
- 
- 
- using namespace std; 
- 
- 
- const int N = 10; 
- 
- 
- int Partition (int *a,int t,int l) 
- { 
-     int x = a[l]; 
-     int i = t-1; 
-     for (int j = t; j < l; j++) 
-     { 
-         if (a[j]<=x) 
-         { 
-             i++; 
-             swap(a[i],a[j]); 
-         } 
-     } 
-     swap(a[i+1],a[l]); 
-     return i+1; 
- } 
- 
- 
- int MedianPartition(int *a,int p,int r) 
- { 
-     if (r-p > 2) 
-     { 
-         int el1 = rand() % (r-p+1) + p; 
-         int el2 = rand() % (r-p+1) + p; 
-         int el3 = rand() % (r-p+1) + p; 
-         while (true) 
-         { 
-             if ((el2 == el1)||(el2 == el3)) 
-                 el2 = rand() % (r-p+1) + p; 
-             else 
-                 break; 
-         } 
-         while (true) 
-         { 
-             if ((el3 == el1)||(el3 == el2)) 
-                 el3 = rand() % (r-p+1) + p; 
-             else 
-                 break; 
-         } 
-         if((el2 > el1) && (el2 < el3) || (el2 < el1) && (el2 > el3)) 
-         { 
-             swap (a[el2],a[r]); 
-         } 
-         else if((el1 > el2) && (el1 < el3) || (el1 < el2) && (el1 > el3)) 
-         { 
-             swap (a[el1],a[r]); 
-         } 
-         else if((el3 > el2) && (el3 < el1) || (el3 < el2) && (el3 > el1)) 
-         { 
-             swap (a[el3],a[r]); 
-         } 
-         return Partition(a,p,r); 
-     } 
-     else 
-         return Partition(a,p,r); 
- } 
- 
- 
- void QuickSort (int *a,int p,int r) 
- { 
-     if (p < r) 
-     { 
-         int q = MedianPartition(a,p,r); 
-         QuickSort(a,p,q-1); 
-         QuickSort(a,q+1,r); 
-     } 
- 
- 
- } 
- 
- 
- int main() 
- { 
-     int s [N] = {6,3,0,1,8,7,2,4,9,5}; 
-     cout <<"The first example\nArray before Quick Sort: "; 
-     for (int d = 0; d < N; d++) 
-         cout << s[d] << " "; 
-     QuickSort(s,0,N-1); 
-     cout <<"\nArray after Quick Sort: "; 
-     for (int d = 0; d < N; d++) 
-         cout << s[d] << " "; 
- 
-     cout << "\n\nThe second example\nEnter " << N << " numbers:" << endl; 
-     for (int d = 0; d < N; d++) 
-         cin >> s[d]; 
-     QuickSort(s,0,N-1); 
-     cout <<"\nArray after Quick Sort: "; 
-     for (int d = 0; d < N; d++) 
-         cout << s[d] << " "; 
- 
-
-     return 0; 
- } 
+    -#include <iostream>  
+    -#include <iostream>  
+    -#include <vector>  
+    -#include <windows.h>  
+    -using namespace std;  
+    -  
+    -class PriorityQueue  
+    -{  
+    -public:  
+    -    void heapify(int i);  
+    -    void push(int el); // Aiaaaeyao yeaiaio a i?a?aau  
+    -    void pop();        // Oaaeyao aa?oiee yeaiaio ec i?a?aae  
+    -    int top();         // Aica?auaao aa?oiee yeaiaio i?a?aae, ia oaaeyy aai  
+    -private:  
+    -    vector<int> queue;  
+    -};  
+    -  
+    -void heapsort(vector<int> &vec);  
+    -  
+    -  
+    -int main() {  
+    -    SetConsoleCP(1251);  
+    -    SetConsoleOutputCP(1251);  
+    -    PriorityQueue a; // nicaaaony i?a?aau ec yeaiaioia <5,12,7,7,3>  
+    -    a.push(6);  
+    -    a.push(3);  
+    -    a.push(19);  
+    -    a.push(1);  
+    -    a.push(12);  
+    -    cout << "Aa?oeia iinea aiaaaeaiey 5:" << a.top() << endl;  
+    -    a.pop();  
+    -    cout << "Aa?oeia iinea oaaeaiey 1:" << a.top() << endl;  
+    -    a.push(13);  
+    -    a.push(10);  
+    -    cout << "Aa?oeiaiinea aiaaaeaiey 2:" << a.top() << endl;  
+    -    a.pop();  
+    -    a.pop();  
+    -    a.pop();  
+    -    cout << "Aa?oeia iineaa oaaeaiey 3:" << a.top() << endl;  
+    -  
+    -    vector <int> vec; // nicaa?ony aaeoi? <5,4,6,3,2,8,2,29>  
+    -    vec.push_back(5);  
+    -    vec.push_back(4);  
+    -    vec.push_back(6);  
+    -    vec.push_back(3);  
+    -    vec.push_back(2);  
+    -    vec.push_back(8);  
+    -    vec.push_back(2);  
+    -    vec.push_back(29);  
+    -  
+    -    for (int i = 0; i < vec.size(); i++)  
+    -        cout << vec [i]<< " ";  
+    -    cout << endl;  
+    -  
+    -    heapsort(vec); //ni?oe?iaea aaeoi?a eo?ae  
+    -  
+    -    for (int i = 0; i < vec.size(); i++)  
+    -        cout << vec [i]<< " ";  
+    -  
+    -    return 0;  
+    -}  
+    -  
+    -void heapsort(vector<int> &vec) {  
+    -    PriorityQueue tmp;  
+    -    for (int i = 0; i < vec.size(); i++)  
+    -        tmp.push(vec[i]);  
+    -  
+    -    for (int i = vec.size() - 1; i >= 0; i--)  
+    -    {  
+    -        vec[i] = tmp.top();  
+    -        tmp.pop();  
+    -        tmp.heapify(0);  
+    -    };  
+    -}  
+    -  
+    -  
+    -  
+    -  
+    -  
+    -void PriorityQueue::heapify(int i)  
+    -{  
+    -    int leftChild;  
+    -    int rightChild;  
+    -    int largestChild;  
+    -  
+    -    for ( ; ; )  
+    -    {  
+    -        leftChild = 2 * i + 1;  
+    -        rightChild = 2 * i + 2;  
+    -        largestChild = i;  
+    -  
+    -        if (leftChild < queue.size() && queue[leftChild] > queue[largestChild])  
+    -        {  
+    -            largestChild = leftChild;  
+   -        }  
+   -  
+   -        if (rightChild < queue.size() && queue[rightChild] > queue[largestChild])  
+   -        {  
+   -            largestChild = rightChild;  
+    -        }  
+    -  
+    -        if (largestChild == i)  
+    -        {  
+    -            break;  
+    -        }  
+    -  
+    -        int temp = queue[i];  
+    -        queue[i] = queue[largestChild];  
+    -        queue[largestChild] = temp;  
+    -        i = largestChild;  
+    -    }  
+    -}  
+    -  
+    -void PriorityQueue::push(int el)  // Aiaaaeyao yeaiaio a i?a?aau  
+    -{  
+    -    queue.push_back(el);  
+    -    int i = queue.size()-1;  
+    -    int parent = (i - 1) / 2;  
+    -  
+    -    while (i > 0 && queue[parent] < queue[i])  
+    -    {  
+    -        int temp = queue[i];  
+    -        queue[i] = queue[parent];  
+    -        queue[parent] = temp;  
+    -  
+    -        i = parent;  
+    -        parent = (i - 1) / 2;  
+    -    }  
+    -}  
+    -  
+    -void PriorityQueue::pop()  // Oaaeyao aa?oiee yeaiaio ec i?a?aae  
+    -{  
+    -    if (queue.empty())  
+    -        cerr << "Queue is empty.";  
+    -    queue[0] = queue[queue.size()-1];  
+    -    queue.pop_back();  
+    -    heapify (0);  
+    -}  
+    -  
+    -int PriorityQueue::top()  //Aica?auaao aa?oiee yeaiaio i?a?aae, ia oaaeyy aai  
+    -{  
+    -    if (queue.empty())  
+    -        cerr << "Queue is empty.";  
+    -    return queue.front();  
+    -}  
